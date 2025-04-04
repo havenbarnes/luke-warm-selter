@@ -85,14 +85,8 @@ function create() {
     { x: 350, y: 450 },
     { x: 450, y: 450 },
     { x: 550, y: 450 },
-    // Corner hazards
-    { x: 220, y: 120 },
-    { x: 580, y: 120 },
-    { x: 220, y: 480 },
-    { x: 580, y: 480 },
     // Center hazards
     { x: 400, y: 200 },
-    { x: 400, y: 300 }
   ];
 
   hazardPositions.forEach((pos) => {
