@@ -64,9 +64,35 @@ function create() {
   // Create hazards
   hazardRadius = Math.ceil(12 * 1.1); // 10% larger than ball radius
   const hazardPositions = [
+    // Original hazards
     { x: 300, y: 200 },
     { x: 500, y: 200 },
     { x: 400, y: 400 },
+    // New hazards
+    { x: 250, y: 150 },
+    { x: 350, y: 150 },
+    { x: 450, y: 150 },
+    { x: 550, y: 150 },
+    { x: 250, y: 250 },
+    { x: 350, y: 250 },
+    { x: 450, y: 250 },
+    { x: 550, y: 250 },
+    { x: 250, y: 350 },
+    { x: 350, y: 350 },
+    { x: 450, y: 350 },
+    { x: 550, y: 350 },
+    { x: 250, y: 450 },
+    { x: 350, y: 450 },
+    { x: 450, y: 450 },
+    { x: 550, y: 450 },
+    // Corner hazards
+    { x: 220, y: 120 },
+    { x: 580, y: 120 },
+    { x: 220, y: 480 },
+    { x: 580, y: 480 },
+    // Center hazards
+    { x: 400, y: 200 },
+    { x: 400, y: 300 }
   ];
 
   hazardPositions.forEach((pos) => {
@@ -172,9 +198,10 @@ function create() {
   ballGraphics.generateTexture("ball", 20, 20);
   ballGraphics.destroy();
 
-  // Create the ball with proper collision radius
+  // Create the ball with proper collision radius and position it above the platform
   const ballRadius = 12;
-  ball = this.matter.add.circle(400, 50, ballRadius, {
+  const platformY = (leftPin.y + rightPin.y) / 2; // Get the middle Y position of the platform
+  ball = this.matter.add.circle(400, platformY - 30, ballRadius, {
     restitution: 0.001, // Extremely low bounce
     friction: 0.001, // Almost no friction
     density: 0.001, // Light
