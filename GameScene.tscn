@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://mw5u0ljrl4n6"]
+
+[ext_resource type="Script" uid="uid://sxmfi4bo3qa5" path="res://bar.gd" id="1_eqhe0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f24su"]
+sky_top_color = Color(0.58541596, 0.41500214, 0, 1)
+sky_horizon_color = Color(0.81729543, 0.8854614, 0, 1)
+ground_bottom_color = Color(0.08627451, 0.15686275, 0.9843137, 1)
+ground_horizon_color = Color(1, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_eqhe0"]
+sky_material = SubResource("ProceduralSkyMaterial_f24su")
+
+[sub_resource type="Environment" id="Environment_k77ap"]
+background_mode = 2
+sky = SubResource("Sky_eqhe0")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yqt4x"]
+absorbent = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cr6u3"]
+radius = 0.15
+
+[sub_resource type="SphereMesh" id="SphereMesh_o44sg"]
+radius = 0.15
+height = 0.3
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n1rjx"]
+friction = 0.9
+absorbent = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f24su"]
+size = Vector3(6, 0.1, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eqhe0"]
+albedo_color = Color(0.6710644, 0, 0.31291544, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_eqhe0"]
+material = SubResource("StandardMaterial3D_eqhe0")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 6.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8vx87"]
+friction = 0.4
+bounce = 0.15
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5yl64"]
+size = Vector3(0.2, 6.4, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eqhe0"]
+size = Vector3(0.2, 6.4, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k77ap"]
+size = Vector3(4.8, 0.2, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_haeiw"]
+size = Vector3(4.8, 0.2, 0.6)
+
+[node name="Game" type="Node3D" unique_id=1423743846]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=701631625]
+environment = SubResource("Environment_k77ap")
+
+[node name="Ball" type="RigidBody3D" parent="." unique_id=930698943]
+collision_layer = 2
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+mass = 3.0
+physics_material_override = SubResource("PhysicsMaterial_yqt4x")
+can_sleep = false
+continuous_cd = true
+angular_damp = 0.4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=1130095652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+shape = SubResource("SphereShape3D_cr6u3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball" unique_id=1002349981]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+mesh = SubResource("SphereMesh_o44sg")
+
+[node name="Bar" type="AnimatableBody3D" parent="." unique_id=2106735629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+collision_mask = 0
+axis_lock_linear_z = true
+physics_material_override = SubResource("PhysicsMaterial_n1rjx")
+script = ExtResource("1_eqhe0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bar" unique_id=977670450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+shape = SubResource("BoxShape3D_f24su")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bar" unique_id=1735524283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+mesh = SubResource("CylinderMesh_eqhe0")
+
+[node name="Playfield" type="Node3D" parent="." unique_id=1912753395]
+
+[node name="Frame" type="StaticBody3D" parent="Playfield" unique_id=1638747047]
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_8vx87")
+
+[node name="WallLeft" type="CollisionShape3D" parent="Playfield/Frame" unique_id=136835058]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0, 0)
+shape = SubResource("BoxShape3D_5yl64")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="WallRight" type="CollisionShape3D" parent="Playfield/Frame" unique_id=853816438]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, 0)
+shape = SubResource("BoxShape3D_eqhe0")
+
+[node name="WallTop" type="CollisionShape3D" parent="Playfield/Frame" unique_id=1995576002]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+shape = SubResource("BoxShape3D_k77ap")
+
+[node name="WallBottom" type="CollisionShape3D" parent="Playfield/Frame" unique_id=493102419]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.1, 0)
+shape = SubResource("BoxShape3D_haeiw")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=569719372]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1879057595]
+transform = Transform3D(0.8660253, 0.3535534, -0.3535534, 0, 0.7071068, 0.7071068, 0.49999997, -0.6123724, 0.6123724, 0, 0, 0)
+light_energy = 5.17
