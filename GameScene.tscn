@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://mw5u0ljrl4n6"]
 
 [ext_resource type="Script" uid="uid://sxmfi4bo3qa5" path="res://bar.gd" id="1_eqhe0"]
+[ext_resource type="Script" uid="uid://bloknr388ia1x" path="res://holespawner.gd" id="2_k77ap"]
+[ext_resource type="Script" path="res://ball.gd" id="3_ball"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f24su"]
 sky_top_color = Color(0.58541596, 0.41500214, 0, 1)
@@ -29,17 +31,18 @@ height = 0.3
 friction = 0.9
 absorbent = true
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_f24su"]
-size = Vector3(6, 0.1, 0.3)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eqhe0"]
+height = 8.0
+radius = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eqhe0"]
-albedo_color = Color(0.6710644, 0, 0.31291544, 1)
+albedo_color = Color(0.7294118, 0.7058824, 0.003921569, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_eqhe0"]
 material = SubResource("StandardMaterial3D_eqhe0")
 top_radius = 0.05
 bottom_radius = 0.05
-height = 6.0
+height = 8.0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8vx87"]
 friction = 0.4
@@ -51,11 +54,11 @@ size = Vector3(0.2, 6.4, 0.6)
 [sub_resource type="BoxShape3D" id="BoxShape3D_eqhe0"]
 size = Vector3(0.2, 6.4, 0.6)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_k77ap"]
-size = Vector3(4.8, 0.2, 0.6)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_haeiw"]
-size = Vector3(4.8, 0.2, 0.6)
+size = Vector3(8, 6.4, 0.2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yqt4x"]
+size = Vector2(8, 6.4)
 
 [node name="Game" type="Node3D" unique_id=1423743846]
 
@@ -63,36 +66,33 @@ size = Vector3(4.8, 0.2, 0.6)
 environment = SubResource("Environment_k77ap")
 
 [node name="Ball" type="RigidBody3D" parent="." unique_id=930698943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2, 0.11)
 collision_layer = 2
-axis_lock_linear_z = true
-axis_lock_angular_x = true
-mass = 3.0
 physics_material_override = SubResource("PhysicsMaterial_yqt4x")
+gravity_scale = 2.0
 can_sleep = false
 continuous_cd = true
 angular_damp = 0.4
+script = ExtResource("3_ball")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=1130095652]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
 shape = SubResource("SphereShape3D_cr6u3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ball" unique_id=1002349981]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
 mesh = SubResource("SphereMesh_o44sg")
 
 [node name="Bar" type="AnimatableBody3D" parent="." unique_id=2106735629]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
 collision_mask = 0
-axis_lock_linear_z = true
 physics_material_override = SubResource("PhysicsMaterial_n1rjx")
 script = ExtResource("1_eqhe0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bar" unique_id=977670450]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
-shape = SubResource("BoxShape3D_f24su")
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -2.5, 0.15)
+shape = SubResource("CylinderShape3D_eqhe0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Bar" unique_id=1735524283]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -2.5, 0.05)
 mesh = SubResource("CylinderMesh_eqhe0")
 
 [node name="Playfield" type="Node3D" parent="." unique_id=1912753395]
@@ -102,28 +102,40 @@ collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_8vx87")
 
 [node name="WallLeft" type="CollisionShape3D" parent="Playfield/Frame" unique_id=136835058]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 shape = SubResource("BoxShape3D_5yl64")
-debug_color = Color(0, 0.6, 0.69803923, 1)
+debug_color = Color(0.5823485, 0.18820947, 1.4439226e-07, 1)
 
 [node name="WallRight" type="CollisionShape3D" parent="Playfield/Frame" unique_id=853816438]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 shape = SubResource("BoxShape3D_eqhe0")
+debug_color = Color(0.5823485, 0.18820947, 1.4439226e-07, 1)
 
-[node name="WallTop" type="CollisionShape3D" parent="Playfield/Frame" unique_id=1995576002]
+[node name="WallBack" type="CollisionShape3D" parent="Playfield/Frame" unique_id=1667287898]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
-shape = SubResource("BoxShape3D_k77ap")
-
-[node name="WallBottom" type="CollisionShape3D" parent="Playfield/Frame" unique_id=493102419]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25776708)
 shape = SubResource("BoxShape3D_haeiw")
+disabled = true
+debug_color = Color(0.5823485, 0.18820947, 1.4439226e-07, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Playfield/Frame/WallBack" unique_id=656145173]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.258)
+mesh = SubResource("PlaneMesh_yqt4x")
+
+[node name="WallFront" type="CollisionShape3D" parent="Playfield/Frame" unique_id=860906091]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.45)
+shape = SubResource("BoxShape3D_haeiw")
+debug_color = Color(0.5823485, 0.18820947, 1.4439226e-07, 1)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=569719372]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1879057595]
-transform = Transform3D(0.8660253, 0.3535534, -0.3535534, 0, 0.7071068, 0.7071068, 0.49999997, -0.6123724, 0.6123724, 0, 0, 0)
+transform = Transform3D(0.86602545, 0.3535534, -0.3535534, -0.27962723, 0.92866075, 0.24371657, 0.414498, -0.11220136, 0.90310705, 0, 0, 11)
+light_color = Color(0.85020864, 0.6840811, 7.70092e-07, 1)
 light_energy = 5.17
+
+[node name="Holes" type="Node3D" parent="." unique_id=777418410]
+script = ExtResource("2_k77ap")
